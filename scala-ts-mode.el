@@ -84,11 +84,15 @@
     ;; is done separately.
     (modify-syntax-entry ?\` "$" table)
 
-    ;; ' is considered an expression prefix, since it can
-    ;; both start a Symbol and is a char quote. It
-    ;; will be given string syntax by syntax-propertize-function
-    ;; for properly formatted char literals.
-    (modify-syntax-entry ?\' "'" table)
+    ;; ' is considered an expression prefix, since it can both start a Symbol
+    ;; (when part of quoting another symbol) and is a char quote otherwise. The
+    ;; proper syntax should be given to syntax-propertize-function by
+    ;; tree-sitter.
+    ;; While waiting to verify that such a statement is true, we default to
+    ;; treating ' as a "String quotes".
+    ;; This also fixes rainbow-delimiters not understanding ... 'A') in a Scala
+    ;; expression.
+    (modify-syntax-entry ?\' "\"" table)
 
     ;; punctuation as specified by SLS
     (modify-syntax-entry ?\. "." table)
@@ -97,7 +101,7 @@
 
     (modify-syntax-entry ?\\ "\\" table) ; Escape seq start
     (modify-syntax-entry ?\" "\"" table) ; String start
-    (modify-syntax-entry ?'  "/" table)  ; Char start
+
     (modify-syntax-entry ?/ ". 124b" table) ; Line/block comment // or /* */
     (modify-syntax-entry ?* ". 23n" table) ; Block comment /* */
     (modify-syntax-entry ?\n "> b" table) ; Comment ends with newline
