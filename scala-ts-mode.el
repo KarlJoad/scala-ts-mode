@@ -65,6 +65,36 @@
     (modify-syntax-entry ?- "." table)
     (modify-syntax-entry ?/ "." table)
     ;; Just reinforcing some defaults
+
+    ;; The scala parentheses
+    (modify-syntax-entry ?\( "()" table)
+    (modify-syntax-entry ?\[ "(]" table)
+    (modify-syntax-entry ?\{ "(}" table)
+    (modify-syntax-entry ?\) ")(" table)
+    (modify-syntax-entry ?\] ")[" table)
+    (modify-syntax-entry ?\} "){" table)
+
+    ;; _ is upper-case letter, but will be modified to be symbol
+    ;; constituent when in reserved symbol position by
+    ;; syntax-propertize-function
+    (modify-syntax-entry ?\_ "w" table)
+
+    ;; backquote is given paired delimiter syntax so that
+    ;; quoted ids are parsed as one sexp. Fontification
+    ;; is done separately.
+    (modify-syntax-entry ?\` "$" table)
+
+    ;; ' is considered an expression prefix, since it can
+    ;; both start a Symbol and is a char quote. It
+    ;; will be given string syntax by syntax-propertize-function
+    ;; for properly formatted char literals.
+    (modify-syntax-entry ?\' "'" table)
+
+    ;; punctuation as specified by SLS
+    (modify-syntax-entry ?\. "." table)
+    (modify-syntax-entry ?\; "." table)
+    (modify-syntax-entry ?\, "." table)
+
     (modify-syntax-entry ?\\ "\\" table) ; Escape seq start
     (modify-syntax-entry ?\" "\"" table) ; String start
     (modify-syntax-entry ?'  "/" table)  ; Char start
